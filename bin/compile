@@ -50,6 +50,10 @@ echo "export LD_LIBRARY_PATH=\"\$HOME/vendor/qrencode/lib:\$LD_LIBRARY_PATH\"" >
 echo "export PKG_CONFIG_PATH=\"\$HOME/vendor/qrencode/lib/pkgconfig:\$PKG_CONFIG_PATH\"" >> '.profile.d/libqrencode.sh'
 cat '.profile.d/libqrencode.sh'
 
-echo 'Installing gem'
+echo 'Installing gem qrencode'
+
+gem install qrencoder -- --with-opt-dir=/app/vendor/qrencode/
+
+echo 'Installing gem multi_encoder'
 
 gem install multi_encoder -v 0.0.9 -- --with-qrencoder-dir=/app/vendor/qrencode
