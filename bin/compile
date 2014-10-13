@@ -4,13 +4,13 @@
 # bin/compile <build-dir> <cache-dir>
 
 # fail fast
+
 # parse and derive params
 BUILD_DIR=$1
 CACHE_DIR=$2
 
 # debug
 # set -x
-echo "-----> We are building libpixman and lippoppler in '$PWD' with contents:"
 ls -a
 echo "-----> Present PATH's:"
 echo "HOME: '$HOME'"
