@@ -34,7 +34,7 @@ fi
 #Building qrencode
 echo "-----> Building qrencode ... BUILD_DIR: $BUILD_DIR // CACHE_DIR: $CACHE_DIR // PWD: $PWD"
 cd $BUILD_DIR
-curl '-OL' 'http://fukuchi.org/works/qrencode/qrencode-3.4.3.tar.gz'
+curl '-OL' 'http://fukuchi.org/works/qrencode/qrencode-3.4.3.1.tar.gz'
 tar xzf 'qrencode-3.4.3.tar.gz'
 cd 'qrencode-3.4.3'
 CFLAGS='-fPIC -Wall -g -O2' CXXFLAGS='-fPIC -Wall -g -O2' png_CFLAGS='-fPIC -Wall -g -O2' ./configure --with-pic --enable-static --disable-shared --prefix=$VENDORED_QRENCODE
@@ -51,4 +51,4 @@ echo "export LD_LIBRARY_PATH=\"\$HOME/vendor/qrencode/lib:\$LD_LIBRARY_PATH\"" >
 echo "export PKG_CONFIG_PATH=\"\$HOME/vendor/qrencode/lib/pkgconfig:\$PKG_CONFIG_PATH\"" >> '.profile.d/libqrencode.sh'
 cat '.profile.d/libqrencode.sh'
 
-gem install qrencoder -- --with-opt-dir=/qrencode-3.4.3/
+gem install qrencoder -- --with-opt-dir=/vendor/qrencode/lib/
