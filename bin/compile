@@ -76,4 +76,4 @@
 
 echo "installed qrencoder"
 
-gem install qrencoder -- --with-opt-dir=/app/vendor/qrencode/3.4.3.1
+gem install qrencoder -- --with-opt-dir=/app/vendor/qrencode/3.4.3_1
