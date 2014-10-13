@@ -1,4 +1,29 @@
 #!/usr/bin/env bash
+
+
+
+#/usr/bin/env ruby <<-EORUBY
+
+  #puts 'Ruby enviroment'
+
+  #$stdout.sync = true
+
+  #$:.unshift File.expand_path("../../lib", __FILE__)
+  #require "language_pack"
+  #require "language_pack/shell_helpers"
+
+  #LanguagePack::Instrument.trace 'compile', 'app.compile' do
+    #if pack = LanguagePack.detect(ARGV[0], ARGV[1])
+      #LanguagePack::ShellHelpers.initialize_env(ARGV[2])
+      #pack.topic("Compiling #{pack.name}")
+      #pack.log("compile") do
+        #pack.compile
+      #end
+    #end
+  #end
+
+#EORUBY
+
 # bin/compile <build-dir> <cache-dir>
 
 # fail fast
@@ -50,32 +75,5 @@ echo "export LD_LIBRARY_PATH=\"\$HOME/vendor/qrencode/lib:\$LD_LIBRARY_PATH\"" >
 echo "export PKG_CONFIG_PATH=\"\$HOME/vendor/qrencode/lib/pkgconfig:\$PKG_CONFIG_PATH\"" >> '.profile.d/libqrencode.sh'
 cat '.profile.d/libqrencode.sh'
 
-#echo 'Installing gem qrencode'
-
-#gem install qrencoder -- --with-opt-dir=/app/vendor/qrencode/
-
-echo 'Installing gem multi_encoder'
-
-/usr/bin/env ruby <<-EORUBY
-
-  # sync output
-  $stdout.sync = true
-
-  $:.unshift File.expand_path("../../lib", __FILE__)
-  require "language_pack"
-  require "language_pack/shell_helpers"
-
-  LanguagePack::Instrument.trace 'compile', 'app.compile' do
-    if pack = LanguagePack.detect(ARGV[0], ARGV[1])
-      LanguagePack::ShellHelpers.initialize_env(ARGV[2])
-      pack.topic("Compiling #{pack.name}")
-      pack.log("compile") do
-        pack.compile
-      end
-    end
-  end
-
-EORUBY
-
-echo "installed multi_encoder"
-echo "gem install multi_encoder -v 0.0.9 -- --with-qrencoder-dir=/app/vendor/qrencode"
+#echo "installed multi_encoder"
+#echo "gem install multi_encoder -v 0.0.9 -- --with-qrencoder-dir=/app/vendor/qrencode"
