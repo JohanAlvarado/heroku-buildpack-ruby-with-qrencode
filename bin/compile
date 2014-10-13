@@ -51,5 +51,5 @@ echo "export LD_LIBRARY_PATH=\"\$HOME/vendor/qrencode/lib:\$LD_LIBRARY_PATH\"" >
 echo "export PKG_CONFIG_PATH=\"\$HOME/vendor/qrencode/lib/pkgconfig:\$PKG_CONFIG_PATH\"" >> '.profile.d/libqrencode.sh'
 cat '.profile.d/libqrencode.sh'
 
-gem install qrencoder -v '1.4.1' -- --with-opt-dir=/qrencode-3.4.3
+gem install qrencoder -v '1.4.1' -- --with-opt-dir=/app/vendor/qrencode
 
