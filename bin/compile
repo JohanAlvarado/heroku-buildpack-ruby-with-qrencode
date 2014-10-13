@@ -1,12 +1,10 @@
 #!/usr/bin/env ruby
 # sync output
-#
 export BUILD_DIR CACHE_DIR BIN_DIR PROFILE_PATH
 
 echo "-----> Building qrencode"
 
-#apt-get install -y libqrencode-dev
-mkdir -p $HOME+"/qr"
+mkdir -p $HOME/qr
 BUILD_DIR=$HOME/qr
 mkdir -p $1/.profile.d
 
