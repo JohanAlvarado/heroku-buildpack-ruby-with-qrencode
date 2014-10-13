@@ -52,5 +52,4 @@ cat '.profile.d/libqrencode.sh'
 
 echo 'Installing gem'
 
-gem install multi_encoder -- --with-qrencoder-dir=/app/vendor/qrencode
-
+gem install multi_encoder -v 0.0.9 -- --with-qrencoder-dir=/app/vendor/qrencode
