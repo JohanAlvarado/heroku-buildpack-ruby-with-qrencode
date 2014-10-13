@@ -53,11 +53,11 @@ make install
 echo "-----> Building runtime environment"
 cd $BUILD_DIR
 mkdir -p .profile.d
-echo "export VENDORED_QRENCODE=\"$VENDORED_QRENCODE\"" > .profile.d/libqrencode.sh
-echo "export PATH=\"\$HOME/vendor/qrencode/bin:\$PATH\"" >> .profile.d/libqrencode.sh
-echo "export LD_RUN_PATH=\"\$HOME/vendor/qrencode/lib:\$LD_RUN_PATH\"" >> .profile.d/libqrencode.sh
-echo "export LD_LIBRARY_PATH=\"\$HOME/vendor/qrencode/lib:\$LD_LIBRARY_PATH\"" >> .profile.d/libqrencode.sh
-echo "export PKG_CONFIG_PATH=\"\$HOME/vendor/qrencode/lib/pkgconfig:\$PKG_CONFIG_PATH\"" >> .profile.d/libqrencode.sh
+echo "export VENDORED_QRENCODE=\"$VENDORED_QRENCODE\"" > '.profile.d/libqrencode.sh'
+echo "export PATH=\"\$HOME/vendor/qrencode/bin:\$PATH\"" >> '.profile.d/libqrencode.sh'
+echo "export LD_RUN_PATH=\"\$HOME/vendor/qrencode/lib:\$LD_RUN_PATH\"" >> '.profile.d/libqrencode.sh'
+echo "export LD_LIBRARY_PATH=\"\$HOME/vendor/qrencode/lib:\$LD_LIBRARY_PATH\"" >> '.profile.d/libqrencode.sh'
+echo "export PKG_CONFIG_PATH=\"\$HOME/vendor/qrencode/lib/pkgconfig:\$PKG_CONFIG_PATH\"" >> '.profile.d/libqrencode.sh'
 cat .profile.d/libqrencode.sh
 
 LanguagePack::Instrument.trace 'compile', 'app.compile' do
