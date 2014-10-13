@@ -31,6 +31,7 @@ then
     VENDORED_QRENCODE="$HOME/Code/heroku-qrencode-buildpack/vendor/qrencode" # Just for my local laptop testing
 else
     VENDORED_QRENCODE="/app/vendor/qrencode"
+end
 fi
 
 #Building qrencode
