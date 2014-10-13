@@ -1,79 +1,78 @@
-#!/usr/bin/env bash
+#!/usr/bin/env ruby
 
 
 
-#/usr/bin/env ruby <<-EORUBY
 
-  #puts 'Ruby enviroment'
+  puts 'Ruby enviroment'
 
-  #$stdout.sync = true
+  $stdout.sync = true
 
-  #$:.unshift File.expand_path("../../lib", __FILE__)
-  #require "language_pack"
-  #require "language_pack/shell_helpers"
+  $:.unshift File.expand_path("../../lib", __FILE__)
+  require "language_pack"
+  require "language_pack/shell_helpers"
 
-  #LanguagePack::Instrument.trace 'compile', 'app.compile' do
-    #if pack = LanguagePack.detect(ARGV[0], ARGV[1])
-      #LanguagePack::ShellHelpers.initialize_env(ARGV[2])
-      #pack.topic("Compiling #{pack.name}")
-      #pack.log("compile") do
-        #pack.compile
-      #end
-    #end
-  #end
+  LanguagePack::Instrument.trace 'compile', 'app.compile' do
+    if pack = LanguagePack.detect(ARGV[0], ARGV[1])
+      LanguagePack::ShellHelpers.initialize_env(ARGV[2])
+      pack.topic("Compiling #{pack.name}")
+      pack.log("compile") do
+        pack.compile
+      end
+    end
+  end
 
 #EORUBY
 
-# bin/compile <build-dir> <cache-dir>
+#bin/compile <build-dir> <cache-dir>
 
-# fail fast
-set -e
+#fail fast
+#set -e
 
-# parse and derive params
-BUILD_DIR=$1
-CACHE_DIR=$2
+#parse and derive params
+#BUILD_DIR=$1
+#CACHE_DIR=$2
 
-# debug
-# set -x
-echo "-----> We are building libpixman and lippoppler in '$PWD' with contents:"
-ls -a
-echo "-----> Present PATH's:"
-echo "HOME: '$HOME'"
-echo "BUILD_DIR: '$BUILD_DIR'"
-echo "CACHE_DIR: '$CACHE_DIR'"
-echo "PATH: '$PATH'"
-echo "LD_RUN_PATH: '$LD_RUN_PATH'"
-echo "LD_LIBRARY_PATH: '$LD_LIBRARY_PATH'"
-echo "PKG_CONFIG_PATH: '$PKG_CONFIG_PATH'"
+#debug
+#set -x
+#echo "-----> We are building libpixman and lippoppler in '$PWD' with contents:"
+#ls -a
+#echo "-----> Present PATH's:"
+#echo "HOME: '$HOME'"
+#echo "BUILD_DIR: '$BUILD_DIR'"
+#echo "CACHE_DIR: '$CACHE_DIR'"
+#echo "PATH: '$PATH'"
+#echo "LD_RUN_PATH: '$LD_RUN_PATH'"
+#echo "LD_LIBRARY_PATH: '$LD_LIBRARY_PATH'"
+#echo "PKG_CONFIG_PATH: '$PKG_CONFIG_PATH'"
 
-# clean up leaking environment
-unset GIT_DIR
+#clean up leaking environment
+#unset GIT_DIR
 
-if [[ "Darwin" == "$(uname)" ]]
-then
-    VENDORED_QRENCODE="$HOME/Code/heroku-qrencode-buildpack/vendor/qrencode" # Just for my local laptop testing
-else
-    VENDORED_QRENCODE="/app/vendor/qrencode"
-fi
+#if [[ "Darwin" == "$(uname)" ]]
+#then
+    #VENDORED_QRENCODE="$HOME/Code/heroku-qrencode-buildpack/vendor/qrencode" Just for my local laptop testing
+#else
+    #VENDORED_QRENCODE="/app/vendor/qrencode"
+#fi
 
 #Building qrencode
-echo "-----> Building qrencode ... BUILD_DIR: $BUILD_DIR // CACHE_DIR: $CACHE_DIR // PWD: $PWD"
-cd $BUILD_DIR
-curl http://fukuchi.org/works/qrencode/qrencode-3.2.0.tar.gz | tar xz
-cd 'qrencode-3.2.0'
-CFLAGS='-fPIC -Wall -g -O2' CXXFLAGS='-fPIC -Wall -g -O2' png_CFLAGS='-fPIC -Wall -g -O2' ./configure --with-pic --enable-static --disable-shared --prefix=$VENDORED_QRENCODE
-make -j5
-make install
+#echo "-----> Building qrencode ... BUILD_DIR: $BUILD_DIR // CACHE_DIR: $CACHE_DIR // PWD: $PWD"
+#cd $BUILD_DIR
+#curl http://fukuchi.org/works/qrencode/qrencode-3.2.0.tar.gz | tar xz
+#cd 'qrencode-3.2.0'
+#CFLAGS='-fPIC -Wall -g -O2' CXXFLAGS='-fPIC -Wall -g -O2' png_CFLAGS='-fPIC -Wall -g -O2' ./configure --with-pic --enable-static --disable-shared --prefix=$VENDORED_QRENCODE
+#make -j5
+#make install
 
-echo "-----> Building runtime environment"
-cd $BUILD_DIR
-mkdir -p .profile.d
-echo "export VENDORED_QRENCODE=\"$VENDORED_QRENCODE\"" > '.profile.d/libqrencode.sh'
-echo "export PATH=\"\$HOME/vendor/qrencode/bin:\$PATH\"" >> '.profile.d/libqrencode.sh'
-echo "export LD_RUN_PATH=\"\$HOME/vendor/qrencode/lib:\$LD_RUN_PATH\"" >> '.profile.d/libqrencode.sh'
-echo "export LD_LIBRARY_PATH=\"\$HOME/vendor/qrencode/lib:\$LD_LIBRARY_PATH\"" >> '.profile.d/libqrencode.sh'
-echo "export PKG_CONFIG_PATH=\"\$HOME/vendor/qrencode/lib/pkgconfig:\$PKG_CONFIG_PATH\"" >> '.profile.d/libqrencode.sh'
-cat '.profile.d/libqrencode.sh'
+#echo "-----> Building runtime environment"
+#cd $BUILD_DIR
+#mkdir -p .profile.d
+#echo "export VENDORED_QRENCODE=\"$VENDORED_QRENCODE\"" > '.profile.d/libqrencode.sh'
+#echo "export PATH=\"\$HOME/vendor/qrencode/bin:\$PATH\"" >> '.profile.d/libqrencode.sh'
+#echo "export LD_RUN_PATH=\"\$HOME/vendor/qrencode/lib:\$LD_RUN_PATH\"" >> '.profile.d/libqrencode.sh'
+#echo "export LD_LIBRARY_PATH=\"\$HOME/vendor/qrencode/lib:\$LD_LIBRARY_PATH\"" >> '.profile.d/libqrencode.sh'
+#echo "export PKG_CONFIG_PATH=\"\$HOME/vendor/qrencode/lib/pkgconfig:\$PKG_CONFIG_PATH\"" >> '.profile.d/libqrencode.sh'
+#cat '.profile.d/libqrencode.sh'
 
 #echo "installed multi_encoder"
 #echo "gem install multi_encoder -v 0.0.9 -- --with-qrencoder-dir=/app/vendor/qrencode"
