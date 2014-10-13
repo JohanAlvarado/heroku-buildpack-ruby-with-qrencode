@@ -1,9 +1,8 @@
-#!/usr/bin/env ruby
-# sync output
 #!/usr/bin/env bash
 # bin/compile <build-dir> <cache-dir>
 
 # fail fast
+set -e
 
 # parse and derive params
 BUILD_DIR=$1
@@ -11,15 +10,29 @@ CACHE_DIR=$2
 
 # debug
 # set -x
+echo "-----> We are building libpixman and lippoppler in '$PWD' with contents:"
+ls -a
+echo "-----> Present PATH's:"
+echo "HOME: '$HOME'"
+echo "BUILD_DIR: '$BUILD_DIR'"
+echo "CACHE_DIR: '$CACHE_DIR'"
+echo "PATH: '$PATH'"
+echo "LD_RUN_PATH: '$LD_RUN_PATH'"
+echo "LD_LIBRARY_PATH: '$LD_LIBRARY_PATH'"
+echo "PKG_CONFIG_PATH: '$PKG_CONFIG_PATH'"
+
+# clean up leaking environment
+unset GIT_DIR
 
 if [[ "Darwin" == "$(uname)" ]]
 then
     VENDORED_QRENCODE="$HOME/Code/heroku-qrencode-buildpack/vendor/qrencode" # Just for my local laptop testing
 else
     VENDORED_QRENCODE="/app/vendor/qrencode"
-end
+fi
 
 #Building qrencode
+echo "-----> Building qrencode ... BUILD_DIR: $BUILD_DIR // CACHE_DIR: $CACHE_DIR // PWD: $PWD"
 cd $BUILD_DIR
 curl '-OL' 'http://fukuchi.org/works/qrencode/qrencode-3.4.3.tar.gz'
 tar xzf 'qrencode-3.4.3.tar.gz'
@@ -44,3 +57,13 @@ echo "export LD_RUN_PATH=\"\$HOME/vendor/qrencode/lib:\$LD_RUN_PATH\"" >> '.prof
 echo "export LD_LIBRARY_PATH=\"\$HOME/vendor/qrencode/lib:\$LD_LIBRARY_PATH\"" >> '.profile.d/libqrencode.sh'
 echo "export PKG_CONFIG_PATH=\"\$HOME/vendor/qrencode/lib/pkgconfig:\$PKG_CONFIG_PATH\"" >> '.profile.d/libqrencode.sh'
 cat '.profile.d/libqrencode.sh'
+
+LanguagePack::Instrument.trace 'compile', 'app.compile' do
+  if pack = LanguagePack.detect(ARGV[0], ARGV[1])
+    LanguagePack::ShellHelpers.initialize_env(ARGV[2])
+    pack.topic("Compiling #{pack.name}")
+    pack.log("compile") do
+      pack.compile
+    end
+  end
+end
