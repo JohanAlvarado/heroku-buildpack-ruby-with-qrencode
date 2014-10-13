@@ -58,7 +58,7 @@ echo "export PATH=\"\$HOME/vendor/qrencode/bin:\$PATH\"" >> '.profile.d/libqrenc
 echo "export LD_RUN_PATH=\"\$HOME/vendor/qrencode/lib:\$LD_RUN_PATH\"" >> '.profile.d/libqrencode.sh'
 echo "export LD_LIBRARY_PATH=\"\$HOME/vendor/qrencode/lib:\$LD_LIBRARY_PATH\"" >> '.profile.d/libqrencode.sh'
 echo "export PKG_CONFIG_PATH=\"\$HOME/vendor/qrencode/lib/pkgconfig:\$PKG_CONFIG_PATH\"" >> '.profile.d/libqrencode.sh'
-cat .profile.d/libqrencode.sh
+cat '.profile.d/libqrencode.sh'
 
 LanguagePack::Instrument.trace 'compile', 'app.compile' do
   if pack = LanguagePack.detect(ARGV[0], ARGV[1])
