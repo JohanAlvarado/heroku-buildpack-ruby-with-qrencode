@@ -37,14 +37,7 @@ cd $BUILD_DIR
 curl '-OL' 'http://fukuchi.org/works/qrencode/qrencode-3.4.3.tar.gz'
 tar xzf 'qrencode-3.4.3.tar.gz'
 cd 'qrencode-3.4.3'
-CFLAGS='-fPIC -Wall -g -O2'
-CXXFLAGS='-fPIC -Wall -g -O2'
-png_CFLAGS='-fPIC -Wall -g -O2'
-./configure
---with-pic
---enable-static
---disable-shared
---prefix=$VENDORED_QRENCODE
+CFLAGS='-fPIC -Wall -g -O2' CXXFLAGS='-fPIC -Wall -g -O2' png_CFLAGS='-fPIC -Wall -g -O2' ./configure --with-pic --enable-static --disable-shared --prefix=$VENDORED_QRENCODE
 make -j5
 make install
 
@@ -58,6 +51,7 @@ echo "export LD_LIBRARY_PATH=\"\$HOME/vendor/qrencode/lib:\$LD_LIBRARY_PATH\"" >
 echo "export PKG_CONFIG_PATH=\"\$HOME/vendor/qrencode/lib/pkgconfig:\$PKG_CONFIG_PATH\"" >> '.profile.d/libqrencode.sh'
 cat '.profile.d/libqrencode.sh'
 
+#!/usr/bin/env ruby
 LanguagePack::Instrument.trace 'compile', 'app.compile' do
   if pack = LanguagePack.detect(ARGV[0], ARGV[1])
     LanguagePack::ShellHelpers.initialize_env(ARGV[2])
